@@ -14,24 +14,9 @@ import ru.akirakozov.sd.refactoring.servlet.QueryServlet;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-
             ProductDatabase db = new ProductDatabase(new Executor("jdbc:sqlite:test.db"));
-
             db.createTable();
 
-            Server server = new Server(8081);
-
-
-            ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-            context.setContextPath("/");
-            server.setHandler(context);
-
-            context.addServlet(new ServletHolder(new AddProductServlet(db)), "/add-product");
-            context.addServlet(new ServletHolder(new GetProductsServlet(db)), "/get-products");
-            context.addServlet(new ServletHolder(new QueryServlet(db)), "/query");
-
-            server.start();
-            server.join();
-
+            ProductServer.start(db);
     }
 }
