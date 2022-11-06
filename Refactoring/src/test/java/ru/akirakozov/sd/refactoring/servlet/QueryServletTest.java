@@ -12,7 +12,7 @@ public class QueryServletTest extends ServletTest {
 
     private void queryTest(String function) throws IOException {
         when(request.getParameter("command")).thenReturn(function);
-        new QueryServlet().doGet(request, response);
+        new QueryServlet(db).doGet(request, response);
         verifyResponse();
     }
 
@@ -47,7 +47,7 @@ public class QueryServletTest extends ServletTest {
         assertEquals("""
                         <html><body>
                         Summary price:\s
-                        1200
+                        800
                         </body></html>
                         """.replaceAll("\n", System.lineSeparator()),
                 stringWriter.toString());
@@ -59,7 +59,7 @@ public class QueryServletTest extends ServletTest {
         assertEquals("""
                         <html><body>
                         Number of products:\s
-                        4
+                        2
                         </body></html>
                         """.replaceAll("\n", System.lineSeparator()),
                 stringWriter.toString());

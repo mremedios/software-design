@@ -10,7 +10,7 @@ public class ProductServletTest extends ServletTest{
 
     @Test
     public void getProductTest() throws IOException {
-        new GetProductsServlet().doGet(request, response);
+        new GetProductsServlet(db).doGet(request, response);
         verifyResponse();
     }
 
@@ -19,7 +19,7 @@ public class ProductServletTest extends ServletTest{
         when(request.getParameter("name")).thenReturn("bike");
         when(request.getParameter("price")).thenReturn("200");
 
-        new AddProductServlet().doGet(request, response);
+        new AddProductServlet(db).doGet(request, response);
 
         verifyResponse();
         verify(response).getWriter();
