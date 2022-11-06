@@ -1,17 +1,26 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
 import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ProductServletTest extends ServletTest{
+public class ProductServletTest extends ServletTest {
 
     @Test
-    public void getProductTest() throws IOException {
+    public void getProductTest() {
         new GetProductsServlet(db).doGet(request, response);
         verifyResponse();
+        assertEquals("""
+                        <html><body>
+                        bike\t600</br>
+                        crutch\t200</br>
+                        </body></html>
+                        """.replaceAll("\n", System.lineSeparator()),
+                stringWriter.toString());
     }
 
     @Test
