@@ -15,13 +15,15 @@ public abstract class ServletTest {
 
     protected HttpServletRequest request;
     protected HttpServletResponse response;
+    protected StringWriter stringWriter;
     protected PrintWriter printWriter;
 
     @BeforeEach
     public void init() throws IOException {
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
-        printWriter = new PrintWriter(new StringWriter());
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(printWriter);
     }
 
