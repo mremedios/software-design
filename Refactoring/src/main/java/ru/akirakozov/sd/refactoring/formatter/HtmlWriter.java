@@ -5,7 +5,7 @@ import ru.akirakozov.sd.refactoring.model.Product;
 import java.io.IOException;
 import java.io.Writer;
 
-public  class HtmlWriter {
+public class HtmlWriter {
     protected final Writer writer;
 
 

@@ -2,16 +2,13 @@ package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.database.ProductDatabase;
 import ru.akirakozov.sd.refactoring.formatter.HtmlWriter;
+import ru.akirakozov.sd.refactoring.formatter.ProductHtmlWriter;
 import ru.akirakozov.sd.refactoring.model.Product;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 /**
  * @author akirakozov
@@ -26,17 +23,13 @@ public class QueryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String command = request.getParameter("command");
-        HtmlWriter writer = new HtmlWriter(response.getWriter());
+        ProductHtmlWriter writer = new ProductHtmlWriter(response.getWriter());
 
         if ("max".equals(command)) {
             try {
 
                 Product r = db.getMax();
-
-                writer.writeHeader();
-                writer.writeln("<h1>Product with max price: </h1>");
-                writer.writeProduct(r);
-                writer.writeFooter();
+                writer.max(r);
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -44,11 +37,7 @@ public class QueryServlet extends HttpServlet {
         } else if ("min".equals(command)) {
             try {
                 Product r = db.getMin();
-
-                writer.writeHeader();
-                writer.writeln("<h1>Product with min price: </h1>");
-                writer.writeProduct(r);
-                writer.writeFooter();
+                writer.min(r);
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -56,11 +45,7 @@ public class QueryServlet extends HttpServlet {
         } else if ("sum".equals(command)) {
             try {
                 int r = db.getSum();
-
-                writer.writeHeader();
-                writer.writeln("Summary price: ");
-                writer.writeln(String.valueOf(r));
-                writer.writeFooter();
+                writer.sum(r);
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -68,10 +53,7 @@ public class QueryServlet extends HttpServlet {
         } else if ("count".equals(command)) {
             try {
                 int r = db.getAmount();
-                writer.writeHeader();
-                writer.writeln("Number of products: ");
-                writer.writeln(String.valueOf(r));
-                writer.writeFooter();
+                writer.amount(r);
 
             } catch (Exception e) {
                 throw new RuntimeException(e);

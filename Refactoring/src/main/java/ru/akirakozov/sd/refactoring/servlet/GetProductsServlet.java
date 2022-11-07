@@ -1,13 +1,12 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.database.ProductDatabase;
-import ru.akirakozov.sd.refactoring.formatter.HtmlWriter;
+import ru.akirakozov.sd.refactoring.formatter.ProductHtmlWriter;
 import ru.akirakozov.sd.refactoring.model.Product;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,13 +24,8 @@ public class GetProductsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
             List<Product> products = db.getAll();
-            HtmlWriter writer = new HtmlWriter(response.getWriter());
-            writer.writeHeader();
-            for (Product p : products) {
-                writer.writeProduct(p);
-            }
-
-            writer.writeFooter();
+            ProductHtmlWriter writer = new ProductHtmlWriter(response.getWriter());
+            writer.get(products);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
