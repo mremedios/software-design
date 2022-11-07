@@ -15,7 +15,7 @@ import java.sql.Statement;
  */
 public class AddProductServlet extends HttpServlet {
 
-    private ProductDatabase db;
+    private final ProductDatabase db;
 
     public AddProductServlet(ProductDatabase db) {
         this.db = db;
@@ -26,11 +26,7 @@ public class AddProductServlet extends HttpServlet {
         String name = request.getParameter("name");
         long price = Long.parseLong(request.getParameter("price"));
 
-        try {
-            db.insert(name, price);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        db.insert(name, price);
 
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);

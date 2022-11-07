@@ -6,7 +6,6 @@ import ru.akirakozov.sd.refactoring.model.Product;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,21 +20,16 @@ public class QueriesTest {
     protected ProductDatabase db;
 
     @BeforeEach
-     void initDb() throws SQLException, IOException {
+    void initDb() throws IOException {
         String dir = Files.createTempDirectory("temp").toString();
         db = new ProductDatabase(new Executor("jdbc:sqlite:" + dir + "\\test.db"));
         db.createTable();
-        data.forEach(p -> {
-            try {
-                db.insert(p.getName(), p.getPrice());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        data.forEach(p -> db.insert(p.getName(), p.getPrice()));
+
     }
 
     @Test
-    public void queries() throws SQLException {
+    public void queries() {
         assertEquals(data.size(), db.getAll().size());
         assertEquals(data.size(), db.getAmount());
         assertEquals(500, db.getMax().getPrice());
@@ -44,7 +38,7 @@ public class QueriesTest {
     }
 
     @Test
-    public void insert() throws SQLException {
+    public void insert() {
         db.insert("test", 5);
         assertEquals(db.getAll()
                         .stream()

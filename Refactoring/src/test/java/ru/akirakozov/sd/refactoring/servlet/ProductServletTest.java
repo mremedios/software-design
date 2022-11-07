@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 public class ProductServletTest extends ServletTest {
 
     @Test
-    public void getProductTest() {
+    public void getProductTest() throws IOException {
         new GetProductsServlet(db).doGet(request, response);
         verifyResponse();
         assertEquals("""

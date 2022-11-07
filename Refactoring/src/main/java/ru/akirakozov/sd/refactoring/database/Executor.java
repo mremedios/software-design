@@ -9,8 +9,8 @@ public class Executor {
         this.url = url;
     }
 
-    public <T> T executeQuery(String query, SQLFunction<T> processing) throws SQLException {
-        try(Connection connection = DriverManager.getConnection(url)) {
+    public <T> T executeQuery(String query, SQLFunction<T> processing) {
+        try (Connection connection = DriverManager.getConnection(url)) {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -19,14 +19,18 @@ public class Executor {
             rs.close();
             stmt.close();
             return res;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    void executeUpdate(String query) throws SQLException {
-        try(Connection connection = DriverManager.getConnection(url)) {
+    void executeUpdate(String query) {
+        try (Connection connection = DriverManager.getConnection(url)) {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(query);
             stmt.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

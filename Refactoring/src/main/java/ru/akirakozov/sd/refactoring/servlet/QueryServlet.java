@@ -26,38 +26,17 @@ public class QueryServlet extends HttpServlet {
         ProductHtmlWriter writer = new ProductHtmlWriter(response.getWriter());
 
         if ("max".equals(command)) {
-            try {
-
                 Product r = db.getMax();
                 writer.max(r);
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
         } else if ("min".equals(command)) {
-            try {
                 Product r = db.getMin();
                 writer.min(r);
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
         } else if ("sum".equals(command)) {
-            try {
                 int r = db.getSum();
                 writer.sum(r);
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
         } else if ("count".equals(command)) {
-            try {
                 int r = db.getAmount();
                 writer.amount(r);
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
         } else {
             response.getWriter().println("Unknown command: " + command);
         }

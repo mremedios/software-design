@@ -13,7 +13,7 @@ public class ProductDatabase {
         this.executor = executor;
     }
 
-    public void createTable() throws SQLException {
+    public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS PRODUCT" +
                 "(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 " NAME           TEXT    NOT NULL, " +
@@ -21,38 +21,38 @@ public class ProductDatabase {
         executor.executeUpdate(sql);
     }
 
-    public void insert(String name, long price) throws SQLException {
+    public void insert(String name, long price) {
         String sql = "INSERT INTO PRODUCT " +
                 "(NAME, PRICE) VALUES (\"" + name + "\"," + price + ")";
         executor.executeUpdate(sql);
     }
 
-    public List<Product> getAll() throws SQLException {
+    public List<Product> getAll() {
         String sql = "SELECT * FROM PRODUCT";
         return getProductList(sql);
     }
 
-    public int getAmount() throws SQLException {
+    public int getAmount() {
         String sql = "SELECT COUNT(*) FROM PRODUCT";
         return executor.executeQuery(sql, rs -> rs.getInt(1));
     }
 
-    public int getSum() throws SQLException {
+    public int getSum() {
         String sql = "SELECT SUM(price) FROM PRODUCT";
         return executor.executeQuery(sql, rs -> rs.getInt(1));
     }
 
-    public Product getMin() throws SQLException {
+    public Product getMin() {
         String sql = "SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1";
         return getProductList(sql).get(0);
     }
 
-    public Product getMax() throws SQLException {
+    public Product getMax() {
         String sql = "SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1";
         return getProductList(sql).get(0);
     }
 
-    private List<Product> getProductList(String sql) throws SQLException {
+    private List<Product> getProductList(String sql) {
         return executor.executeQuery(sql, rs -> {
                     LinkedList<Product> products = new LinkedList<>();
                     while (rs.next()) {
